@@ -1,1 +1,2 @@
-# VE280_2020_Summer
+# VE280_Louis
+JI VE280 course 2020 Summer
