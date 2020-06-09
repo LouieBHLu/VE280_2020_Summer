@@ -1,0 +1,7 @@
+
+g++ -Wall -o p2.1 p2.cpp simulation.cpp
+./p2.1 username logfile
+
+
+
+
