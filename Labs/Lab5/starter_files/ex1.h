@@ -8,7 +8,7 @@
 #include "recursive.h"
 
 int dot(list_t v1, list_t v2);
-/* 
+/*
 // REQUIRES: Both "v1" and "v2" are non-empty
 //
 // EFFECTS: Treats both lists as vectors. Returns the dot
