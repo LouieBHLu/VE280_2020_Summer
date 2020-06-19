@@ -24,7 +24,7 @@ class Hand {
     void addCard(Card c);
     // MODIFIES: this
     // EFFECTS: adds the card "c" to those presently held.
-
+    
     HandValue handValue() const;
     // EFFECTS: returns the present value of the blackjack hand.  The
     // count field is the highest blackjack total possible without
