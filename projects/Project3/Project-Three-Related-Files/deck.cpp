@@ -25,23 +25,21 @@ void Deck::reset(){
 
 void Deck::shuffle(int n){
     int left_number = n; int right_number = DeckSize - n;
-    //Card* left_cards = new Card[left_number]; Card* right_cards = new Card[right_number];
     Card left_cards[left_number]; Card right_cards[right_number];
     for(int i = 0; i < left_number; i++) left_cards[i] = this->deck[i];
     for(int i = 0; i < right_number; i++) right_cards[i] = this->deck[left_number + i];
-    int right_order = 0; int left_order = 0; int right_full = 0; int left_full = 0;
-    int sum_order = right_order + left_order;
-    while(!right_full || !left_full){
-        if(!right_full){
+    int right_order = 0; int left_order = 0;
+    while(right_order < right_number || left_order < left_number){
+        int sum_order = right_order + left_order;
+        if(right_order < right_number){
             this->deck[sum_order] = right_cards[right_order];
             right_order++;
         }
-        if(!left_full){
+        sum_order = right_order + left_order;
+        if(left_order < left_number){
             this->deck[sum_order] = left_cards[left_order];
             left_order++;
         }
-        if(right_order == right_number) right_full++;
-        if(left_order == left_number) left_full++;
     }
     this->next = 0;
 }
