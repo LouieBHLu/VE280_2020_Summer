@@ -1,0 +1,31 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: g++.exe build active file",
+            "command": "C:\\progra~1\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "${file}",
+                "${fileDirname}\\player.cpp",
+                "${fileDirname}\\deck.cpp",
+                "${fileDirname}\\hand.cpp",
+                "${fileDirname}\\rand.cpp",
+                "${fileDirname}\\card.cpp",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "version": "2.0.0"
+}

@@ -37,13 +37,17 @@ class Simple_Player : public Player{
         return false;
     }
 
-    void expose(Card c){}
-    void shuffled(){}
+    void expose(Card c)
+    { }
+    void shuffled()
+    { }
 };
 
 Player *get_Simple(){
-    Simple_Player simple_player;
-    Player * SimplePlayer = &simple_player;
+    // Simple_Player simple_player;
+    // Player * SimplePlayer = &simple_player;
+    // return SimplePlayer;
+    Player *SimplePlayer = new Simple_Player();
     return SimplePlayer;
 }
 
@@ -83,7 +87,9 @@ class Counting_Player : public Player{
 };
 
 Player *get_Counting(){
-    Counting_Player counting_player;
-    Player * CountingPlayer = &counting_player;
+    // Counting_Player counting_player;
+    // Player * CountingPlayer = &counting_player;
+    // return CountingPlayer;
+    Player *CountingPlayer = new Counting_Player();
     return CountingPlayer;
 }
