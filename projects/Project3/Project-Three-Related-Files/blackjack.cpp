@@ -35,14 +35,14 @@ Card deal(Deck &deck, Player *player, Hand &hand, string role, bool expose){
 
 int main(int argc, char const *argv[])
 {
-    unsigned int mini_bet = 5;
-    unsigned int bankroll = 100;
-    int hands = 3;
-    string player_type = "simple";
+    // unsigned int mini_bet = 5;
+    // unsigned int bankroll = 100;
+    // int hands = 3;
+    // string player_type = "simple";
     //string player_type = "counting";
-    // unsigned int bankroll = atoi(argv[1]);
-    // int hands = atoi(argv[2]);
-    // string player_type = argv[3];
+    unsigned int bankroll = atoi(argv[1]);
+    int hands = atoi(argv[2]);
+    string player_type = argv[3];
     Deck deck;
     Player *player;
 
@@ -65,7 +65,10 @@ int main(int argc, char const *argv[])
         if(deck.cardsLeft() < 20) initial_shuffle(deck, player);
         int wager = player->bet(bankroll,mini_bet);
         cout << "Player bets " << wager << endl;
-        //discard?
+        //discard all card this hand
+        player_hand.discardAll();
+        dealer_hand.discardAll();
+        //deal 4 cards
         string role = "Player";
         deal(deck,player,player_hand,role,true);
         role = "Dealer";
@@ -73,9 +76,55 @@ int main(int argc, char const *argv[])
         role = "Player";
         deal(deck,player,player_hand,role,true);
         role = "Dealer";
-        Card down_card = deal(deck,player,dealer_hand,role,false);
-        
-        
+        Card hole_card = deal(deck,player,dealer_hand,role,false);
+
+        //check if player has a natural 21
+        if(player_hand.handValue().count == 21){//if so
+            bankroll += 1.5*wager;
+            cout << "Player dealt natural 21 \n";
+            continue;
+        }
+        else{//if not
+            while(player->draw(dealer_card,player_hand)) deal(deck,player,player_hand,role,true);
+        }
+
+        int player_count = player_hand.handValue().count;
+        cout << "Player's total is " << player_count << endl;
+        if(player_count > 21){
+            cout << "Player busts\n";
+            bankroll -= wager;
+            continue;
+        } 
+        else{
+            cout << "Dealer's hole card is " << SpotNames[hole_card.spot] << " of " << SuitNames[hole_card.suit] << endl;
+            player->expose(hole_card);
+            //hit until reach 17
+            while(dealer_hand.handValue().count < 17){
+                role = "Dealer";
+                deal(deck,player,dealer_hand,role,true);
+            }
+            int dealer_count = dealer_hand.handValue().count;
+            cout << "Dealer's total is " << dealer_count << endl;
+            if(dealer_count > 21){
+                cout << "Dealer busts\n";
+                bankroll += wager;
+                continue;
+            }
+            else{
+                if(player_count > dealer_count){
+                    cout << "Player wins\n";
+                    bankroll += wager;
+                } 
+                else if(player_count < dealer_count){
+                    cout << "Dealer wins\n";
+                    bankroll -= wager;
+                } 
+                else cout << "Push\n";
+            }
+        }
+
     }
+
+    cout << "Player has " << bankroll << " after " << thishand << " hands\n";
     return 0;
 }
