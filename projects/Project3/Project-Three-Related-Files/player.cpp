@@ -57,7 +57,6 @@ class Counting_Player : public Player{
 
     public:
     int bet(unsigned int bankroll,unsigned int minimum){
-        int wager = 0;
         if(count >= 2 && bankroll >= 2*minimum){
             return 2*minimum;
         }
@@ -72,7 +71,7 @@ class Counting_Player : public Player{
     }
 
     void expose(Card c){
-        if(c.spot >= 10){
+        if(c.spot >= TEN){
             count--;
         }
         if(c.spot <= SIX && c.spot >= TWO){

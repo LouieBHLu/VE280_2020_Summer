@@ -10,7 +10,7 @@
 using namespace std;
 
 void initial_shuffle(Deck &deck, Player *player){
-    cout << "Shuffuling the deck\n";
+    cout << "Shuffling the deck\n";
     int cut = 0;
     for (int i = 0; i < 7; i++)
     {
@@ -35,11 +35,7 @@ Card deal(Deck &deck, Player *player, Hand &hand, string role, bool expose){
 
 int main(int argc, char const *argv[])
 {
-    // unsigned int mini_bet = 5;
-    // unsigned int bankroll = 100;
-    // int hands = 3;
-    // string player_type = "simple";
-    //string player_type = "counting";
+    unsigned int mini_bet = 5;
     unsigned int bankroll = atoi(argv[1]);
     int hands = atoi(argv[2]);
     string player_type = argv[3];
