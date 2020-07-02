@@ -1,0 +1,24 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "C/C++: g++.exe build active file",
+			"command": "C:\\progra~1\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-o",
+				"-g",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",				
+				"${file}",
+				"${fileDirname}\\course.cpp",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		}
+	]
+}
