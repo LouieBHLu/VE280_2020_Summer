@@ -27,13 +27,23 @@ protected:
     int sizeTasks;
     std::string course_code;
 public:
-    // TODO: implement the constructor
-    TechnicalCourse(const std::string &course_code, int size = MAXTASKS);
+    TechnicalCourse(const std::string &course_code, int size){
+        this->course_code = course_code;
+        this->tasks = new Task[size];
+        this->numTasks = 0;
+        this->sizeTasks = size;
+    }
 
-    // TODO: declare and implement the destructor
+    TechnicalCourse(const std::string &course_code){
+        this->course_code = course_code;
+        this->tasks = new Task[MAXTASKS];
+        this->numTasks = 0;
+        this->sizeTasks = MAXTASKS;
+    }
+
     ~TechnicalCourse();
-    // TODO: declare updateTask method
-    void updateTask(const std::string &type, int index, int due_month, int due_day);
+    
+    virtual void updateTask(const std::string &type, int index, int due_month, int due_day);
     void finishTask(const std::string &type, int index, int finish_month, int finish_day);
     void print();
 };
@@ -48,18 +58,21 @@ void TechnicalCourse::updateTask(const std::string &type, int index, int due_mon
     int flag = 0;
     int order = 0;
     for(int i = 0; i <= this->numTasks-1; i++){
-        if(index == this->tasks[i].index){
-            flag++;
-            break;
-            order = i;
+        if(type == this->tasks[i].type){
+            if(index == this->tasks[i].index){
+                flag++;
+                order = i;
+                break;
+            }
         }
     }
+
     if(flag){
         this->tasks[order].due_month = due_month;
         this->tasks[order].due_day = due_day;
     }
     else{
-        if(numTasks == sizeTasks){
+        if(this->numTasks == this->sizeTasks){
             tooManyTasks full;
             throw full;
         } 
@@ -68,17 +81,15 @@ void TechnicalCourse::updateTask(const std::string &type, int index, int due_mon
             this->tasks[numTasks].index = index;
             this->tasks[numTasks].due_month = due_month;
             this->tasks[numTasks].due_day = due_day;
-            numTasks++;
             if(type == "Lab" || type == "Project"){
-                cout <<this->course_code << " " << this->tasks[order].type
-                << " " << this->tasks[order].type << " " << this->tasks[order].index
-                << " is released! Submit it via oj!" << endl;  
+                cout << this->course_code << " " << this->tasks[numTasks].type
+                << " " << this->tasks[numTasks].index << " is released! Submit it via oj!" << endl;  
             }
             else{
-                cout <<this->course_code << " " << this->tasks[order].type
-                << " " << this->tasks[order].type << " " << this->tasks[order].index
-                << " is released! Submit it via canvas!" << endl;  
+                cout << this->course_code << " " << this->tasks[numTasks].type
+                << " " << this->tasks[numTasks].index << " is released! Submit it via canvas!" << endl;  
             }
+            this->numTasks++;
         }
     }
 }
@@ -91,37 +102,37 @@ void TechnicalCourse::finishTask(const std::string &type, int index, int finish_
     int flag = 0;
     int order = 0;
     for(int i = 0; i <= this->numTasks-1; i++){
-        if(index == this->tasks[i].index){
-            order = i;
-            if(this->tasks[i].due_month < finish_month) flag = 1;
-            else if(this->tasks[i].due_month > finish_month) flag = 0;
-            else{
-                if(this->tasks[i].due_day < finish_day) flag = 1;
-                else flag = 0;
+        if(type == this->tasks[i].type){
+            if(index == this->tasks[i].index){
+                order = i;
+                if(this->tasks[i].due_month < finish_month) flag = 1;
+                else if(this->tasks[i].due_month > finish_month) flag = 0;
+                else{
+                    if(this->tasks[i].due_day < finish_day) flag = 1;
+                    else flag = 0;
+                }
+                break;
             }
         }
     }
 
     if(flag){
         cout <<this->course_code << " " << this->tasks[order].type
-        << " " << this->tasks[order].type << " " << this->tasks[order].index
-        << " is overdue!" << endl;  
+        << " " << this->tasks[order].index << " is overdue!" << endl;  
     }
     else{
         cout <<this->course_code << " " << this->tasks[order].type
-        << " " << this->tasks[order].type << " " << this->tasks[order].index
-        << " is finished!" << endl;  
+        << " " << this->tasks[order].index << " is finished!" << endl;  
     }
     
     //delete the task
-    this->tasks[order].index = 0;
-    this->tasks[order].due_day = 0;
-    this->tasks[order].due_month = 0;
-    for(int i = order+1; i <= this->numTasks-2; i++){
+    for(int i = order; i <= this->numTasks-2; i++){
+        this->tasks[i].type = this->tasks[i+1].type;
         this->tasks[i].index = this->tasks[i+1].index;
         this->tasks[i].due_day = this->tasks[i+1].due_day;
         this->tasks[i].due_month = this->tasks[i+1].due_month;
     }
+    this->tasks[numTasks-1].type ="";
     this->tasks[numTasks-1].index = 0;
     this->tasks[numTasks-1].due_day = 0;
     this->tasks[numTasks-1].due_month = 0;
@@ -137,19 +148,16 @@ void TechnicalCourse::print()
     }
 }
 
-// TechnicalCourse::~TechnicalCourse(){
-//     for(int i = 0; i < this->numTasks; i++){
-//         delete[] tasks;
-//     }
-// }
+TechnicalCourse::~TechnicalCourse(){
+    delete[] tasks;
+}
 
 class UpperlevelTechnicalCourse : public TechnicalCourse {
 public:
-    // TODO: implement the constructor
-    UpperlevelTechnicalCourse(const std::string &course_code, int size = MAXTASKS);
+    UpperlevelTechnicalCourse(const std::string &course_code, int size):TechnicalCourse(course_code,size){};
 
-    // TODO: declare and implement the destructor
-
+    UpperlevelTechnicalCourse(const std::string &course_code):TechnicalCourse(course_code){};
+    
     void updateTask(const std::string &type, int index, int due_month, int due_day);
 };
 
@@ -162,7 +170,123 @@ void UpperlevelTechnicalCourse::updateTask(const std::string &type, int index, i
 //          updates its position in tasks & due_month & due_day if its due_month/due_day is changed,
 //          do nothing if its due_month/due_day is unchanged.
 {
-    // TODO: implement this function
+    int flag = 0;
+    int order = 0;
+    int position = 0;
+    for(int i = 0; i <= this->numTasks-1; i++){
+        if(type == this->tasks[i].type){
+            if(index == this->tasks[i].index){
+                flag++;
+                order = i;
+                break;
+            }
+        }
+    }
+
+    if(flag){
+        this->tasks[order].due_month = due_month;
+        this->tasks[order].due_day = due_day;
+        for(int i = 0; i < this->numTasks-1; i++){
+            for (int j = 0; j < this->numTasks-1-i; j++){
+                if(this->tasks[j].due_month > this->tasks[j+1].due_month){
+                    //swap
+                }
+                else if(this->tasks[j].due_month == this->tasks[j+1].due_month){
+                    if(this->tasks[j].due_day > this->tasks[j+1].due_day){
+                        //swap
+                    }
+                }
+            }
+        }
+    }
+    else{
+        if(this->numTasks == this->sizeTasks){
+            tooManyTasks full;
+            throw full;
+        } 
+        else{
+            //check the position to insert
+            if(this->numTasks == 0){
+                this->tasks[0].type = type;
+                this->tasks[0].index = index;
+                this->tasks[0].due_month = due_month;
+                this->tasks[0].due_day = due_day;
+                position = 0;
+            }
+            else{
+                int i = 0;
+                for(i = 0; i <= this->numTasks-1; i++){
+                    if(this->tasks[i].due_month < due_month) continue;
+                    else if(this->tasks[i].due_month == due_month){
+                        if(this->tasks[i].due_day < due_day) continue;
+                        else if(this->tasks[i].due_day == due_day){
+                            for(int j = this->numTasks-1; j >= i+1; j--){
+                                this->tasks[j+1].type = this->tasks[j].type;
+                                this->tasks[j+1].index = this->tasks[j].index;
+                                this->tasks[j+1].due_day = this->tasks[j].due_day;
+                                this->tasks[j+1].due_month = this->tasks[j].due_month;
+                            }
+                            this->tasks[i+1].type = type;
+                            this->tasks[i+1].index = index;
+                            this->tasks[i+1].due_month = due_month;
+                            this->tasks[i+1].due_day = due_day;
+                            position = i+1;
+                            break;
+                        }
+                        else{
+                        for(int j = i+1; j <= this->numTasks; j++){
+                            this->tasks[j].type = this->tasks[j-1].type;
+                            this->tasks[j].index = this->tasks[j-1].index;
+                            this->tasks[j].due_day = this->tasks[j-1].due_day;
+                            this->tasks[j].due_month = this->tasks[j-1].due_month;
+                        }
+                        position = i;
+                        this->tasks[i].type = type;
+                        this->tasks[i].index = index;
+                        this->tasks[i].due_month = due_month;
+                        this->tasks[i].due_day = due_day;
+                        break;
+                        }
+                    }
+                    else{
+                        for(int j = i+1; j <= this->numTasks; j++){
+                            this->tasks[j].type = this->tasks[j-1].type;
+                            this->tasks[j].index = this->tasks[j-1].index;
+                            this->tasks[j].due_day = this->tasks[j-1].due_day;
+                            this->tasks[j].due_month = this->tasks[j-1].due_month;
+                        }
+                        this->tasks[i].type = type;
+                        this->tasks[i].index = index;
+                        this->tasks[i].due_month = due_month;
+                        this->tasks[i].due_day = due_day;
+                        position = i;
+                        break;
+                    }
+                }
+                if(i == this->numTasks){
+                    position = this->numTasks;
+                    this->tasks[position].type = type;
+                    this->tasks[position].index = index;
+                    this->tasks[position].due_month = due_month;
+                    this->tasks[position].due_day = due_day;
+                }
+            }
+
+            if(type == "Lab" || type == "Project"){
+                cout << this->course_code << " " << this->tasks[position].type
+                << " " << this->tasks[position].index << " is released! Submit it via oj!" << endl;  
+            }
+            else if(type == "Team Project"){
+                cout << this->course_code << " " << this->tasks[position].type
+                << " " << this->tasks[position].index << " is released! Submit it via github!" << endl;  
+            }
+            else{
+                cout << this->course_code << " " << this->tasks[position].type
+                << " " << this->tasks[position].index << " is released! Submit it via canvas!" << endl;  
+            }
+            this->numTasks++;
+        }
+    }
 }
 
 Course *create(const std::string &class_type, const std::string &course_code, bool assign_size, int tasks_size)

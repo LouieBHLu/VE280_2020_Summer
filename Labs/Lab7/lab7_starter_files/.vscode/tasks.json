@@ -6,11 +6,11 @@
 			"label": "C/C++: g++.exe build active file",
 			"command": "C:\\progra~1\\mingw64\\bin\\g++.exe",
 			"args": [
-				"-o",
-				"-g",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe",				
 				"${file}",
 				"${fileDirname}\\course.cpp",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",	
+				"-g",			
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

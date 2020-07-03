@@ -13,10 +13,10 @@ class tooManyTasks{};
 class Course{
 public:
     // TODO: declare methods and destructor here
-    void updateTask(const std::string &type, int index, int due_month, int due_day);
-    void finishTask(const std::string &type, int index, int finish_month, int finish_day);
-    void print();
-    ~Course();
+    virtual void updateTask(const std::string &type, int index, int due_month, int due_day){};
+    virtual void finishTask(const std::string &type, int index, int finish_month, int finish_day){};
+    virtual void print(){};
+    virtual ~Course(){};
 };
 
 Course *create(const std::string &class_type, const std::string &course_code, bool assign_size, int tasks_size);
