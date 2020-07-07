@@ -190,10 +190,35 @@ void UpperlevelTechnicalCourse::updateTask(const std::string &type, int index, i
             for (int j = 0; j < this->numTasks-1-i; j++){
                 if(this->tasks[j].due_month > this->tasks[j+1].due_month){
                     //swap
+                    int temp_index = this->tasks[j].index;
+                    this->tasks[j].index = this->tasks[j+1].index;
+                    this->tasks[j+1].index = temp_index;
+                    string temp_type = this->tasks[j].type;
+                    this->tasks[j].type = this->tasks[j+1].type;
+                    this->tasks[j+1].type = temp_type;
+                    int temp_month = this->tasks[j].due_month;
+                    this->tasks[j].due_month = this->tasks[j+1].due_month;
+                    this->tasks[j+1].due_month = temp_month;
+                    int temp_day = this->tasks[j].due_day;
+                    this->tasks[j].due_day = this->tasks[j+1].due_day;
+                    this->tasks[j+1].due_day = temp_day;
+
                 }
                 else if(this->tasks[j].due_month == this->tasks[j+1].due_month){
                     if(this->tasks[j].due_day > this->tasks[j+1].due_day){
                         //swap
+                        int temp_index = this->tasks[j].index;
+                        this->tasks[j].index = this->tasks[j+1].index;
+                        this->tasks[j+1].index = temp_index;
+                        string temp_type = this->tasks[j].type;
+                        this->tasks[j].type = this->tasks[j+1].type;
+                        this->tasks[j+1].type = temp_type;
+                        int temp_month = this->tasks[j].due_month;
+                        this->tasks[j].due_month = this->tasks[j+1].due_month;
+                        this->tasks[j+1].due_month = temp_month;
+                        int temp_day = this->tasks[j].due_day;
+                        this->tasks[j].due_day = this->tasks[j+1].due_day;
+                        this->tasks[j+1].due_day = temp_day;
                     }
                 }
             }

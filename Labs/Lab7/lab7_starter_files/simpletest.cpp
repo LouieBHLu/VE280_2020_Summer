@@ -28,7 +28,8 @@ int main() {
         ve482->print();
         ve482->updateTask("Project", 1, 9, 30);
         ve482->print();
-        ve482->updateTask("Project", 2, 9, 11);
+        ve482->updateTask("Project", 1, 9, 16);
+        ve482->print();
 
 
         // ve281->updateTask("Lab", 1, 9, 23);
