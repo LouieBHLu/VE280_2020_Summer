@@ -11,6 +11,10 @@ int main() {
     A[0][2].addChild(8);
     A[0][2].addChild(9);
     A[1].addChild(7);
+    A[2].addChild(13);
+    //A[1].addChild(10);
+    //A[1].addChild(11);
+    //A[1].addChild(12);
 
     A.traverse();
     cout << endl;

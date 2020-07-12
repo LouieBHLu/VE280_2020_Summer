@@ -44,6 +44,9 @@ public:
     //          1 2 4 5 6 8 9 3 7
     //          And the output of the tree below is
     //          1 3 5 6 2 4
+    
+    bool dfs(Node *tree1, Node *tree2);
+    //EFFECTS: return true if two trees are identical using dfs
 
     bool contain(Node *sub);
     // EFFECTS: return whether the tree rooted at sub is a subtree of this
