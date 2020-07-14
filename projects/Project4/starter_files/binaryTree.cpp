@@ -45,8 +45,9 @@ void Node::incnum(){
 }
 
 Node *Node::mergeNodes(Node *leftNode, Node *rightNode) {
-    string merge_str = this->left->str + this->right->str;
-    Node *merge_node = new Node(merge_str,this->num,leftNode,rightNode);
+    string merge_str = leftNode->str + rightNode->str;
+    int merge_num = leftNode->num + rightNode->num;
+    Node *merge_node = new Node(merge_str,merge_num,leftNode,rightNode);
     return merge_node;
 }
 
@@ -76,6 +77,7 @@ string findPath_helper(const BinaryTree *tree, const string &s){
 
 string BinaryTree::findPath(const string &s) const{
     string path = findPath_helper(this,s);
+    if(path == "-1") return path;
     for(int i = 0; i < path.size()/2; i++){//reverse the path
         char temp = path[i];
         path[i] = path[path.size()-i-1];
@@ -159,9 +161,9 @@ int minPathSum(const BinaryTree *tree){
     return tree->root->getnum() + min(left_sum,right_sum);
 }
 
-bool BinaryTree::allPathSumGreater(int temp) const {
+bool BinaryTree::allPathSumGreater(int sum) const {
     int min = minPathSum(this);
-    if(min > temp) return true;
+    if(min > sum) return true;
     else return false;
 }
 
@@ -249,6 +251,7 @@ BinaryTree BinaryTree::copy() const {
 //     sub.root->setright(three);
 //     three->setleft(five);
 //     three->setright(six);
+//     cout << root->mergeNodes(one,two)->getstr() << endl;
 
 //     //cout << sub.contained_by(test) << endl;
 //     //cout << test.contained_by(sub) << endl;
@@ -260,9 +263,9 @@ BinaryTree BinaryTree::copy() const {
 //     //test.postorder_num();
 //     // cout << test.allPathSumGreater(6) << endl;
 //     // cout << test.allPathSumGreater(5) << endl;
-//     BinaryTree test_copy = test.copy();
-//     cout << test_copy.root->getnum() << endl;
-//     cout << test_copy.root->getstr() << endl;
+//     //BinaryTree test_copy = test.copy();
+//     //cout << test_copy.root->getnum() << endl;
+//     //cout << test_copy.root->getstr() << endl;
 
 //     //test.inorder_str();
 //     return 0;

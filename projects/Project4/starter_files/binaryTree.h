@@ -44,7 +44,7 @@ public:
     // MODIFIES: this
     // EFFECTS: increment num by 1
 
-    Node *mergeNodes(Node *leftNode, Node *rightNode);
+    static Node *mergeNodes(Node *leftNode, Node *rightNode);
     // REQUIRES: leftNode and rightNode points to dynamically allocated node objects.
     // EFFECTS: Returns a pointer to a node with "str" being the result of appending
     //          leftNode->str and rightNode->str, and "num" being leftNode->num +

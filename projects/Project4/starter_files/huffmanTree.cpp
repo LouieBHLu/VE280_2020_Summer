@@ -54,7 +54,7 @@ static void printTree_helper(Node *n, int depth, int targetDepth) {
             cout << n->getnum() << ",";
         } else {
             if (n->getstr()=="\n") cout << "\\n,";
-            else cout << n->getnum() << ",";
+            else cout << n->getstr() << ",";
         }
         return;
     } else {
