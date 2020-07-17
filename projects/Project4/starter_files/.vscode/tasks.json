@@ -3,15 +3,15 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "C/C++: g++.exe build active file",
-			"command": "C:\\progra~1\\mingw64\\bin\\g++.exe",
+			"label": "C/C++: g++ build active file",
+			"command": "/usr/bin/g++",
 			"args": [
 				"-g",
 				"${file}",
-				"${fileDirname}\\binaryTree.cpp",
-				"${fileDirname}\\huffmanTree.cpp",
+				"${fileDirname}/binaryTree.cpp",
+				"${fileDirname}/huffmanTree.cpp",
 				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+				"${fileDirname}/${fileBasenameNoExtension}"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

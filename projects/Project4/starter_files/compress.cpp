@@ -88,7 +88,8 @@ void frequency(char letter, int freq[]){
     case 'z':
         freq[27]++;
         break;
-    default: freq[1]++;
+    case ' ':
+        freq[1]++;
         break;
     }
 }
@@ -96,35 +97,68 @@ void frequency(char letter, int freq[]){
 void two_smallest(int &min1, int &min2, int &pos1, int &pos2, Node *letters[], int &count){
     if(count < 3) return;
     for(int i = 2; i < count; i++){
-        if(letters[i]->getnum() < min1){
-            min2 = min1;
-            min1 = letters[i]->getnum();
-            pos2 = pos1;
-            pos1 = i;
-
+        if(min1 != min2){
+            if(letters[i]->getnum() < min1){
+                min2 = min1;
+                min1 = letters[i]->getnum();
+                pos2 = pos1;
+                pos1 = i;
+            }
+            else if(letters[i]->getnum() < min2){
+                min2 = letters[i]->getnum();
+                pos2 = i;
+            }
+            else if(letters[i]->getnum() == min1){
+                string new_string = letters[i]->getstr();
+                string old_string = letters[pos1]->getstr();
+                if(new_string[0] < old_string[0]) pos1 = i;
+            }
+            else if(letters[i]->getnum() == min2){
+                string new_string = letters[i]->getstr();
+                string old_string = letters[pos2]->getstr();
+                if(new_string[0] < old_string[0]) pos2 = i;
+            }
         }
-        else if(letters[i]->getnum() < min2){
-            min2 = letters[i]->getnum();
-            pos2 = i;
+        else{
+            if(letters[i]->getnum() < min1){
+                min2 = min1;
+                min1 = letters[i]->getnum();
+                pos2 = pos1;
+                pos1 = i;
+            }
+            else if(letters[i]->getnum() > min1) continue;
+            else{
+                string new_string = letters[i]->getstr();
+                string old_string_1 = letters[pos1]->getstr();
+                string old_string_2 = letters[pos2]->getstr();
+                if(new_string[0] < old_string_1[0]){
+                    if(old_string_1[0] < old_string_2[0]){
+                        pos2 = pos1;
+                        pos1 = i;
+                    }
+                    else{
+                        pos1 = i;
+                    }
+                }
+                else if(new_string[0] < old_string_2[0]){
+                    if(old_string_2[0] < old_string_1[0]){
+                        pos1 = i;
+                    }
+                    else{
+                        pos2 = pos1;
+                        pos1 = i;
+                    }
+                }
+            }
         }
     }
     if(min1 == min2){
-        string smaller = letters[pos1]->getstr();
-        string bigger = letters[pos2]->getstr();
-        int order = 0;
-        while(1){
-            if(smaller[order] == bigger[order]){
-                order++;
-                continue;
-            } 
-            else if(smaller[order] > bigger[order]){
-                //switch these two
-                int temp = pos1;
-                pos1 = pos2;
-                pos2 = temp;
-                break;
-            }
-            else break;
+        string string_1 = letters[pos1]->getstr();
+        string string_2 = letters[pos2]->getstr();
+        if(string_2[0] < string_1[0]){
+            int temp = pos1;
+            pos1 = pos2;
+            pos2 = temp;
         }
     }    
 }
@@ -132,23 +166,29 @@ void two_smallest(int &min1, int &min2, int &pos1, int &pos2, Node *letters[], i
 void remove_two(Node *letters[], int &pos1, int &pos2, int &count){
     int min_pos = min(pos1,pos2);
     int max_pos = max(pos1,pos2);
-    for(int i = max_pos; i < count; i++){
+    for(int i = max_pos; i < count-1; i++){
         letters[i] = letters[i+1];
     }
+    letters[count-1] = nullptr;
     count--;
-    for(int i = min_pos; i < count; i++){
+    for(int i = min_pos; i < count-1; i++){
         letters[i] = letters[i+1];
     }
-    count--;    
+    letters[count-1] = nullptr;
+    count--;
 }
 
 int main(int argc, char *argv[]) {
     //open an array to calculate the frequency of each character
     string letter[CHAR_NUM] = {"\n"," ","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
     int freq[CHAR_NUM];
-
+    //read the input arguments
+    string filename;
+    if(argc == 3) filename = argv[2];
+    else if(argc == 2) filename = argv[1];
+    //initialize frequency
     for(int i = 0; i < CHAR_NUM; i++) freq[i] = 0;
-    string filename = "textfile.txt";
+    //read the file and calculate the frequency
     string line;
     ifstream ifile;
     ifile.open(filename);
@@ -165,70 +205,71 @@ int main(int argc, char *argv[]) {
     }
     ifile.close();
     //build a node for each character and add it to an array
-    Node **letters = new Node *[count];
+    int stable_count = count+1;
+    Node **letters = new Node *[stable_count];
     int allo_num = 0;
     for(int i = 0; i < CHAR_NUM; i++){
         if(freq[i] > 0){
             letters[allo_num] = new Node(letter[i],freq[i]);
-            cout << letters[allo_num]->getnum() << " " << letters[allo_num]->getstr() << endl;
             allo_num++;
         } 
     }
     //merge until there is only one root node
     while(count > 1){
         int pos1, pos2, min1, min2;
-        if(letters[0]->getnum() >= letters[1]->getnum()){
+        if(letters[0]->getnum() > letters[1]->getnum()){
             min2 = letters[0]->getnum();
             pos2 = 0;
             min1 = letters[1]->getnum();
             pos1 = 1;
         }
-        else{
+        else if(letters[0]->getnum() < letters[1]->getnum()){
             min2 = letters[1]->getnum();
             pos2 = 1;
             min1 = letters[0]->getnum();
             pos1 = 0;
         }
+        else{
+            string string_1 = letters[0]->getstr();
+            string string_2 = letters[1]->getstr();
+            if(string_1[0] < string_2[0]){
+                min2 = letters[1]->getnum();
+                pos2 = 1;
+                min1 = letters[0]->getnum();
+                pos1 = 0;
+            }
+            else{
+                min2 = letters[0]->getnum();
+                pos2 = 0;
+                min1 = letters[1]->getnum();
+                pos1 = 1;
+            }
+        }
+        //find the position of two node with the least freq
         two_smallest(min1,min2,pos1,pos2,letters,count);
         //merge into one node
         Node merge_node(null_string,0);
         letters[count] = merge_node.mergeNodes(letters[pos2],letters[pos1]);
-        //cout << letters[count]->getstr() << endl;
         count++;
         //remove two smallest nodes
         remove_two(letters,pos1,pos2,count);
-        for(int i = 0; i < count; i++){
-            cout << letters[i]->getstr();
-        }
-        cout << endl;
-        cout << "this time is over!" << endl;
     }
     //construct a HuffmanTree with root node
     HuffmanTree tree(letters[0]);
-    // if(argc == 3){
-    //     tree.printTree();
-    // }
-    // else if(argc == 2){
-    //     ifile.open(filename);
-    //     while(getline(ifile,line)){
-    //         for(int i = 0; i < line.size(); i++){
-    //             char *each_char = &line[i];
-    //             cout << tree.findPath(each_char) << " ";
-    //         }
-    //     }
-    //     ifile.close();
-    // }
-    tree.printTree();
-    ifile.open(filename);
-    while(getline(ifile,line)){
-        for(int i = 0; i < line.size(); i++){
-            string one_char;
-            one_char += line[i];
-            cout << tree.findPath(one_char) << " ";
+    //output
+    if(argc == 3) tree.printTree();
+    else{
+        ifile.open(filename);
+        while(getline(ifile,line)){
+            for(int i = 0; i < line.size(); i++){
+                string each_char;
+                each_char += line[i];
+                cout << tree.findPath(each_char) << " ";
+            }
+            cout << tree.findPath("\n") << " ";
         }
-        cout << tree.findPath("\n") << endl;
+        ifile.close();
     }
-    ifile.close();
-
+    delete[] letters;
     return 0;
 }
