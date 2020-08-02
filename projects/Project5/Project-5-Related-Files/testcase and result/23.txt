@@ -1,0 +1,28 @@
+Input：
+4 20
+WRITEA 3
+READD 2
+WRITE 3
+WRITE 3 10 11
+READ 3 2 5
+READ
+PRINTCACH
+READ 30
+WRITE 40 5
+READ 20
+PRINTCACHE
+PRINTMEM
+EXIT
+
+Output：
+ERROR: Unknown instruction
+ERROR: Unknown instruction
+ERROR: Not enough operands
+ERROR: Too many operands
+ERROR: Too many operands
+ERROR: Not enough operands
+ERROR: Unknown instruction
+ERROR: Address out of bound
+ERROR: Address out of bound
+ERROR: Address out of bound
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

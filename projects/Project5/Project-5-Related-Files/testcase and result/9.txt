@@ -1,0 +1,6 @@
+Input:
+12 - 34 + 56 / 0 * 78
+
+Output:
+12 34 - 56 0 / 78 * + 
+ERROR: Divide by zero

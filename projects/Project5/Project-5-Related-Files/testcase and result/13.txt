@@ -1,0 +1,6 @@
+Input:
+12 - 34 56
+
+Output:
+12 34 56 - 
+ERROR: Too many operands

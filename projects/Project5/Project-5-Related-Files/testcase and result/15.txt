@@ -1,0 +1,6 @@
+Input:
+12 - 34 +
+
+Output:
+12 34 - + 
+ERROR: Not enough operands
