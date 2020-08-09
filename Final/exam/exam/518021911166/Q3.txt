@@ -1,0 +1,12 @@
+C::f
+A::h
+A::f
+B::g
+B::h
+A::f
+B::g
+A::h
+B::g
+D::h
+C::f
+B::g

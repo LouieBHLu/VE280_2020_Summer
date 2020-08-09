@@ -46,7 +46,7 @@ Stack<T>::Stack(const Stack &s): head(0){
 }
 
 template <class T>
-Stack<T> &Stack<T>::operator = (const Stack &s){
+Stack<T>& Stack<T>::operator = (const Stack &s){
     if(this != &s){
         removeAll();
         copyFrom(s);

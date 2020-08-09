@@ -1,0 +1,2 @@
+clear() removes all elements from the vector (which are destroyed), leaving the container with a size of 0.
+in the second loop, there will be an error, because ivec.size() = 0;

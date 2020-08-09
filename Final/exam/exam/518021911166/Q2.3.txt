@@ -1,0 +1,1 @@
+x is a type of foo so that it cannot use funtion "set" of type bar although it is pointed by a pointer of bar.

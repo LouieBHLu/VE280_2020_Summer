@@ -1,0 +1,2 @@
+if getSize is a member function of Foo, we do not need to add friend.
+If it's not a member function of Foo, we should not add Foo::

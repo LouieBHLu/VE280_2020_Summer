@@ -1,0 +1,2 @@
+in this question, the template is as <class key>. However, to realize pure ADT, it should initialize due to the user's
+demand. It should be like "template <class T>", where T is based on the users.

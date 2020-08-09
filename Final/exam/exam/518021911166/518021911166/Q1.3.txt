@@ -1,0 +1,1 @@
+No. Because to create a subtype of A, the precondition should be weakened.
