@@ -40,7 +40,7 @@ public:
         cache.~Dlist();
     } // destructor
 
-    double read(int address){
+    int read(int address){
         if(address >= 0 && address < mem_size){
             block* ref = new block;
             ref->address = address;
@@ -70,7 +70,7 @@ public:
         }
         else{
             cout << "ERROR: Address out of bound" << endl;
-            return 1.5;
+            return -1;
         }
         return 0;
     }
@@ -211,7 +211,7 @@ int main(int argc, char const *argv[]){
             }
             int address_read = atoi(read_address.c_str());
             double num = lru.read(address_read);
-            if(num != 1.5) cout << num << endl;
+            if(num != -1) cout << num << endl;
         }
         else if(command == "WRITE"){
             string write_address;
